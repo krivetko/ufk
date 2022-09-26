@@ -1,0 +1,642 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+{% block content %}
+		<div class="container">
+			<header class="d-flex flex-wrap justify-content-center align-items-center py-3 mb-4 border-bottom">
+				<a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+					<img src="{% static 'img/icon64.png' %}" >
+					<span class="ms-4 fs-4">Система мониторинга</span>
+				</a>
+				<ul class="nav nav-pills">
+					<li class="nav-item"><a href="/admin" class="nav-link active" aria-current="page">Административная панель</a></li>
+				</ul>
+			</header>
+		</div>
+		<div class="album py-5">
+			<div class="container">
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-3">
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<div class="d-flex flex-row justify-content-between">
+									<p class="card-text fs-5">Мониторинг</p>
+									<p class="fw-bold">{{ lastmon.date }}</p>
+								</div>
+								<div class="d-flex flex-row justify-content-between">
+									<p>Сайтов всего:</p>
+									<p class="fw-bold">{{ lastmon.total }}</p>
+								</div>
+								<div class="d-flex flex-row justify-content-between">
+									<p>Недоступно более 1 часа:</p>
+									<p class="fw-bold">{{ lastmon.unavailable }}</p>
+								</div>
+								<div class="d-flex flex-row justify-content-between">
+									<p>Ошибок при получении сайтов:</p>
+									<p class="fw-bold">{{ lastmon.errors }}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<div class="card-body">
+								<p class="card-text fs-5">Изменения в реестре ПИФ</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<div class="card-body">
+					<p class "fs-5">Ошибки мониторинга</p>
+					{% for error in monerrors %}
+					<div class="d-flex flex-wrap justify-content-between">
+						<p>{{ error.site }}</p>
+						<p>{{ error.code }}</p>
+						<p>{{ error.text }}</p>
+					</div>
+					{% endfor %}
+					{% include 'monstatus.html'  %}
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+					Тестирование правил для ООО "Управляющая компания "Альфа-Капитал" (ОГРН 1027739292283)
+				</button>
+				<div class="collapse" id="collapse1">
+				<div class="card card-body">
+					{% include 'alpha.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+					Тестирование правил для АО "Управляющая компания "Первая" (ОГРН 1027739007570)
+				</button>
+				<div class="collapse" id="collapse2">
+				<div class="card card-body">
+					{% include 'firstam.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+					Тестирование правил для ООО "РСХБ Управление Активами" (ОГРН 1127746635950)
+				</button>
+				<div class="collapse" id="collapse3">
+				<div class="card card-body">
+					{% include 'rshb.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4" style="background-color: green">
+					Тестирование правил для ООО "Управляющая компания "Райффайзен Капитал" (ОГРН 1037702037680)
+				</button>
+				<div class="collapse" id="collapse4">
+				<div class="card card-body">
+					{% include 'raiff.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5" style="background-color: green">
+					Тестирование правил для ООО "Управляющая компания "Атон-менеджмент" (ОГРН 1027700027233)
+				</button>
+				<div class="collapse" id="collapse5">
+				<div class="card card-body">
+					{% include 'aton.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+					Тестирование правил для АО "ВТБ Капитал Управление активами" (ОГРН 1027739323600)
+				</button>
+				<div class="collapse" id="collapse6">
+				<div class="card card-body">
+					{% include 'vtb.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+					Тестирование правил для АО "Газпромбанк - Управление активами" (ОГРН 1047796382920)
+				</button>
+				<div class="collapse" id="collapse7">
+				<div class="card card-body">
+					{% include 'gazprom.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+					Тестирование правил для ООО "Управляющая компания "ДОХОДЪ" (ОГРН 1027810309328)
+				</button>
+				<div class="collapse" id="collapse8">
+				<div class="card card-body">
+					{% include 'dohod.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+					Тестирование правил для АО "Управляющая компания "Ингосстрах - Инвестиции" (ОГРН 1027700339666)
+				</button>
+				<div class="collapse" id="collapse9">
+				<div class="card card-body">
+					{% include 'ingosinvest.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse10" aria-expanded="false" aria-controls="collapse10">
+					Тестирование правил для ООО "Управляющая компания ПРОМСВЯЗЬ" (ОГРН 1027718000067)
+				</button>
+				<div class="collapse" id="collapse10">
+				<div class="card card-body">
+					{% include 'promsvyaz.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse11" aria-expanded="false" aria-controls="collapse11" style="background-color: green">
+					Тестирование правил для АО "Управляющая компания "МКБ Инвестиции" (ОГРН 1027700590301)
+				</button>
+				<div class="collapse" id="collapse11">
+				<div class="card card-body">
+					{% include 'mkb.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12" aria-expanded="false" aria-controls="collapse12">
+					Тестирование правил для ООО "БСПБ Капитал" (ОГРН 1067746469757)
+				</button>
+				<div class="collapse" id="collapse12">
+				<div class="card card-body">
+					{% include 'bspb.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse13" aria-expanded="false" aria-controls="collapse13">
+					Тестирование правил для ООО "Управляющая компания "Система Капитал" (ОГРН 1027700421605)
+				</button>
+				<div class="collapse" id="collapse13">
+				<div class="card card-body">
+					{% include 'sistema.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse14" aria-expanded="false" aria-controls="collapse14" style="background-color: green">
+					Тестирование правил для АО "БКС Управление благосостоянием" (ОГРН 1027739003489)
+				</button>
+				<div class="collapse" id="collapse14">
+				<div class="card card-body">
+					{% include 'bcswm.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse15" aria-expanded="false" aria-controls="collapse15" style="background-color: green">
+					Тестирование правил для АО "ТКБ Инвестмент Партнерс" (ОГРН 1027809213596)
+				</button>
+				<div class="collapse" id="collapse15">
+				<div class="card card-body">
+					{% include 'tkbip.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse16" aria-expanded="false" aria-controls="collapse16">
+					Тестирование правил для ООО "Менеджмент-консалтинг" (ОГРН 1027700050168)
+				</button>
+				<div class="collapse" id="collapse16">
+				<div class="card card-body">
+					{% include 'mc.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse17" aria-expanded="false" aria-controls="collapse17" style="background-color: green">
+					Тестирование правил для АО "Управляющая Компания ТРИНФИКО" (ОГРН 1027700084730)
+				</button>
+				<div class="collapse" id="collapse17">
+				<div class="card card-body">
+					{% include 'trinfico.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse18" aria-expanded="false" aria-controls="collapse18">
+					Тестирование правил для ООО "Управляющая Компания "АК БАРС КАПИТАЛ" (ОГРН 1021401047799)
+				</button>
+				<div class="collapse" id="collapse18">
+				<div class="card card-body">
+					{% include 'akbars.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse19" aria-expanded="false" aria-controls="collapse19">
+					Тестирование правил для АО "СОЛИД Менеджмент" (ОГРН 1027700227180)
+				</button>
+				<div class="collapse" id="collapse19">
+				<div class="card card-body">
+					{% include 'solid.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse20" aria-expanded="false" aria-controls="collapse20">
+					Тестирование правил для ООО "Управляющая компания "ОТКРЫТИЕ" (ОГРН 1027739072613)
+				</button>
+				<div class="collapse" id="collapse20">
+				<div class="card card-body">
+					{% include 'openam.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse21" aria-expanded="false" aria-controls="collapse21">
+					Тестирование правил для АО "Управляющая компания "ТРАНСФИНГРУП" (ОГРН 1037739614604)
+				</button>
+				<div class="collapse" id="collapse21">
+				<div class="card card-body">
+					{% include 'tfg.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse22" aria-expanded="false" aria-controls="collapse22">
+					Тестирование правил для ООО "Управляющая компания "Прагма Капитал" (ОГРН 1067746469658)
+				</button>
+				<div class="collapse" id="collapse22">
+				<div class="card card-body">
+					{% include 'pragma.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse23" aria-expanded="false" aria-controls="collapse23">
+					Тестирование правил для ООО "ВЕЛЕС ТРАСТ" (ОГРН 5067746107391)
+				</button>
+				<div class="collapse" id="collapse23">
+				<div class="card card-body">
+					{% include 'veles.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse24" aria-expanded="false" aria-controls="collapse24">
+					Тестирование правил для ЗАО "Управляющая компания "РВМ Капитал" (ОГРН 1057749282810)
+				</button>
+				<div class="collapse" id="collapse24">
+				<div class="card card-body">
+					{% include 'rwminvest.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse25" aria-expanded="false" aria-controls="collapse25">
+					Тестирование правил для ООО "Управляющая компания "Гамма Групп" (ОГРН 1175476116420)
+				</button>
+				<div class="collapse" id="collapse25">
+				<div class="card card-body">
+					{% include 'gamma.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse26" aria-expanded="false" aria-controls="collapse26">
+					Тестирование правил для ООО "Управляющая компания "РБ Капитал" (ОГРН 1207700192590)
+				</button>
+				<div class="collapse" id="collapse26">
+				<div class="card card-body">
+					{% include 'rbcapital.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse27" aria-expanded="false" aria-controls="collapse27">
+					Тестирование правил для АО "Управляющая компания "Апрель Капитал" (ОГРН 1027700266813)
+				</button>
+				<div class="collapse" id="collapse27">
+				<div class="card card-body">
+					{% include 'april.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse28" aria-expanded="false" aria-controls="collapse28">
+					Тестирование правил для ООО "Управляющая компания "Навигатор" (ОГРН 1027725006638)
+				</button>
+				<div class="collapse" id="collapse28">
+				<div class="card card-body">
+					{% include 'navigator.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse29" aria-expanded="false" aria-controls="collapse29">
+					Тестирование правил для ПАО "Управляющая компания "Арсагера" (ОГРН 1056405422875)
+				</button>
+				<div class="collapse" id="collapse29">
+				<div class="card card-body">
+					{% include 'arsagera.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse30" aria-expanded="false" aria-controls="collapse30">
+					Тестирование правил для ООО "Управляющая компания "Восток-Запад" (ОГРН 1056405422875)
+				</button>
+				<div class="collapse" id="collapse30">
+				<div class="card card-body">
+					{% include 'ew-mc.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse31" aria-expanded="false" aria-controls="collapse31">
+					Тестирование правил для ООО "Управляющая компания "Надежное управление" (ОГРН 1077759414281)
+				</button>
+				<div class="collapse" id="collapse31">
+				<div class="card card-body">
+					{% include 'ucnu.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse32" aria-expanded="false" aria-controls="collapse32">
+					Тестирование правил для ООО "КСП Капитал Управление Активами" (ОГРН 1077759966756)
+				</button>
+				<div class="collapse" id="collapse32">
+				<div class="card card-body">
+					{% include 'kspcapital.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse33" aria-expanded="false" aria-controls="collapse33">
+					Тестирование правил для ООО "Управляющая компания "Арикапитал" (ОГРН 1127747149155)
+				</button>
+				<div class="collapse" id="collapse33">
+				<div class="card card-body">
+					{% include 'aricapital.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse34" aria-expanded="false" aria-controls="collapse34">
+					Тестирование правил для ООО "Управляющая компания "Рекорд Капитал" (ОГРН 1137746080768)
+				</button>
+				<div class="collapse" id="collapse34">
+				<div class="card card-body">
+					{% include 'recordcap.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse35" aria-expanded="false" aria-controls="collapse35">
+					Тестирование правил для ООО "Сбережения плюс" (ОГРН 1027722009941)
+				</button>
+				<div class="collapse" id="collapse35">
+				<div class="card card-body">
+					{% include 'savingsim.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse36" aria-expanded="false" aria-controls="collapse36">
+					Тестирование правил для ООО "Управляющая компания "Финам Менеджмент" (ОГРН 1037739042285)
+				</button>
+				<div class="collapse" id="collapse36">
+				<div class="card card-body">
+					{% include 'fdu.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse37" aria-expanded="false" aria-controls="collapse37">
+					Тестирование правил для ООО "Управляющая компания "ОЛМА-ФИНАНС" (ОГРН 1037739831326)
+				</button>
+				<div class="collapse" id="collapse37">
+				<div class="card card-body">
+					{% include 'olma-f.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse38" aria-expanded="false" aria-controls="collapse38">
+					Тестирование правил для ООО "ТРИНФИКО Пропети Менеджмент" (ОГРН 1047796947857)
+				</button>
+				<div class="collapse" id="collapse38">
+				<div class="card card-body">
+					{% include 'trinfico-pm.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse39" aria-expanded="false" aria-controls="collapse39">
+					Тестирование правил для ООО "Управляющая компания "Инвест-Урал" (ОГРН 1086671002582)
+				</button>
+				<div class="collapse" id="collapse39">
+				<div class="card card-body">
+					{% include 'invest-ural.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse40" aria-expanded="false" aria-controls="collapse40">
+					Тестирование правил для ООО "Управляющая компания ОРЕОЛ" (ОГРН 1107746237147)
+				</button>
+				<div class="collapse" id="collapse40">
+				<div class="card card-body">
+					{% include 'oreol-2010.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse41" aria-expanded="false" aria-controls="collapse41">
+					Тестирование правил для ООО "Управляющая компания "КРАСНЫЙ МОСТ" (ОГРН 1167847368325)
+				</button>
+				<div class="collapse" id="collapse41">
+				<div class="card card-body">
+					{% include 'redbridge.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse42" aria-expanded="false" aria-controls="collapse42">
+					Тестирование правил для ЗАО "Лидер" (ОГРН 1025002040250)
+				</button>
+				<div class="collapse" id="collapse42">
+				<div class="card card-body">
+					{% include 'leader-invest.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse43" aria-expanded="false" aria-controls="collapse43">
+					Тестирование правил для ЗАО "Управляющая компания" (ОГРН 1026602948404)
+				</button>
+				<div class="collapse" id="collapse43">
+				<div class="card card-body">
+					{% include 'zaouk.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse44" aria-expanded="false" aria-controls="collapse44">
+					Тестирование правил для ООО "Контрада Капитал" (ОГРН 1047796009128)
+				</button>
+				<div class="collapse" id="collapse44">
+				<div class="card card-body">
+					{% include 'contrada.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse45" aria-expanded="false" aria-controls="collapse45">
+					Тестирование правил для ООО "Управляющая компания ВЕЛЕС Менеджмент" (ОГРН 1047796515470)
+				</button>
+				<div class="collapse" id="collapse45">
+				<div class="card card-body">
+					{% include 'veles-management.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse46" aria-expanded="false" aria-controls="collapse46">
+					Тестирование правил для ООО "ТЭТИС Кэпитал" (ОГРН 1107746374262)
+				</button>
+				<div class="collapse" id="collapse46">
+				<div class="card card-body">
+					{% include 'tetis.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse47" aria-expanded="false" aria-controls="collapse47">
+					Тестирование правил для АО Управляющая компания "Виктори Эссет Менеджмент" (ОГРН 1067746540201)
+				</button>
+				<div class="collapse" id="collapse47">
+				<div class="card card-body">
+					{% include 'victory-am.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse48" aria-expanded="false" aria-controls="collapse48">
+					Тестирование правил для АО "Альфа-Капитал Альтернативные инвестиции" (ОГРН 1087746129888)
+				</button>
+				<div class="collapse" id="collapse48">
+				<div class="card card-body">
+					{% include 'capital-am.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+{% endblock %}
+
