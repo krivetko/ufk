@@ -58,28 +58,33 @@ class Extractor:
         return localtime.localize(datetime.strptime(dtstring, '%d.%m.%Y %H:%M'))
         
     def __extract_element(self, doc):
-        a_tag = doc.select_one('p.filename a')
-        if a_tag:
-            href = self.__domain + a_tag['href']
-            text = a_tag.text
-            date_p = doc.select_one('p.datapubf')
-            if date_p:
-                date = self.__get_date(date_p.text)
+        href = self.__domain + doc['href']
+        text = doc.text
+        if len(text) > 0:
+            date_em = doc.find_next(lambda tag: tag.name == 'em' \
+                    and re.search('(публ|размещ|обнов)', tag.text))
+            if date_em:
+                date = self.__get_date(date_em.text)
                 default_date = localtime.localize(datetime.strptime('01.01.1970 00:00', '%d.%m.%Y %H:%M'))
                 if date == default_date:
                     date = self.__get_date(text)
             else:
                 date = self.__get_date(text)
             return (text, date, href)
-        else:
-            return None
 
     def __parse_contents(self, soup, caption):
         doclist = []
-        for doc in soup.select('td:has(p.filename):not(:has(td))'):
+        doc_dict = {}
+        for doc in soup.find_all('a', href=re.compile('\/.*\.\w+$')):
             result = self.__extract_element(doc)
             if result is not None:
-                doclist.append(result)
+                if doc_dict.get(result[2], None):
+                    doc_dict[result[2]] = (' '.join((doc_dict[result[2]][0]
+                                                    , result[0])),
+                                            doc_dict[result[2]][1])
+                else:
+                    doc_dict[result[2]] = (result[0], result[1])
+        doclist = [(doc_dict[key][0], doc_dict[key][1], key) for key in doc_dict.keys()]
         if len(doclist) > 0:
             if self.__scraped_data is None:
                 self.__scraped_data = [] 
@@ -93,15 +98,13 @@ class Extractor:
         self.__domain = s[0]
         html = response.content
         soup = BeautifulSoup(html, 'html.parser')
-        menu = soup.select('td.subheadarea p.submenu a')
-        cur_element = [(idel, el.string) for idel, el in enumerate(menu) \
-                                        if 'submenucurr' in el['class']]
-        caption = cur_element[0][1]
+        caption = 'Раскрытие информации'
         self.__parse_contents(soup, caption)
-        for menu_element in menu[cur_element[0][0]+1:]:
-            caption = menu_element.string
-            response = requests.get(self.__domain + menu_element['href'], 
-                                        headers=headers, verify=False)
-            html = response.content
-            soup = BeautifulSoup(html, 'html.parser')
-            self.__parse_contents(soup, caption)
+        for menu_element in soup.select('p[style="text-align:center"] a'):
+            if not re.search('(\/.*\.\w+$|.*@.*)', menu_element['href']):
+                caption = menu_element.text
+                if len(caption) > 0:
+                    response = requests.get(menu_element['href'], headers=headers, verify=False)
+                    html = response.content
+                    soup = BeautifulSoup(html, 'html.parser')
+                    self.__parse_contents(soup, caption)

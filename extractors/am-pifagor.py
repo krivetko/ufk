@@ -58,34 +58,36 @@ class Extractor:
         return localtime.localize(datetime.strptime(dtstring, '%d.%m.%Y %H:%M'))
         
     def __extract_element(self, doc):
-        a_tag = doc.select_one('p.filename a')
-        if a_tag:
-            href = self.__domain + a_tag['href']
-            text = a_tag.text
-            date_p = doc.select_one('p.datapubf')
-            if date_p:
-                date = self.__get_date(date_p.text)
-                default_date = localtime.localize(datetime.strptime('01.01.1970 00:00', '%d.%m.%Y %H:%M'))
-                if date == default_date:
-                    date = self.__get_date(text)
-            else:
+        href = self.__domain + doc['href']
+        text = doc.text
+        next_span = doc.find_next('span')
+        if next_span:
+            date = self.__get_date(next_span.text)
+            default_date = localtime.localize(datetime.strptime('01.01.1970 00:00', '%d.%m.%Y %H:%M'))
+            if date == default_date:
                 date = self.__get_date(text)
-            return (text, date, href)
         else:
-            return None
+            date = self.__get_date(text)
+        return (text, date, href)
 
     def __parse_contents(self, soup, caption):
         doclist = []
-        for doc in soup.select('td:has(p.filename):not(:has(td))'):
+        for doc in soup.select('div.news-list table a[target="_blank"]'):
             result = self.__extract_element(doc)
-            if result is not None:
+            if result:
                 doclist.append(result)
         if len(doclist) > 0:
             if self.__scraped_data is None:
                 self.__scraped_data = [] 
                 self.__scraped_data.append([caption, doclist])
             else:
-                self.__scraped_data.append([caption, doclist])
+                found_section = [(idel, el) for idel, el 
+                        in enumerate(self.__scraped_data) if el[0] == caption]
+                if len(found_section) > 0:
+                    index = found_section[0][0]
+                    self.__scraped_data[index][1] += doclist
+                else:
+                    self.__scraped_data.append([caption, doclist])
 
     def scrape(self):
         response = requests.get(self.__url, headers=headers, verify=False)
@@ -93,13 +95,16 @@ class Extractor:
         self.__domain = s[0]
         html = response.content
         soup = BeautifulSoup(html, 'html.parser')
-        menu = soup.select('td.subheadarea p.submenu a')
-        cur_element = [(idel, el.string) for idel, el in enumerate(menu) \
-                                        if 'submenucurr' in el['class']]
-        caption = cur_element[0][1]
-        self.__parse_contents(soup, caption)
-        for menu_element in menu[cur_element[0][0]+1:]:
-            caption = menu_element.string
+        menu_links = soup.select('div.menu-sitemap-tree li.noDot:has( \
+                        div.item-text a[style*="font-weight:bold"]) \
+                        ul li.noDot:not(:has(li.noDot)) a')
+        for menu_element in menu_links:
+            parent = menu_element.find_parent('li', class_='close')
+            if parent:
+                a_tag = parent.select_one('table div.item-text a')
+                caption = a_tag.string
+            else:
+                caption = menu_element.string
             response = requests.get(self.__domain + menu_element['href'], 
                                         headers=headers, verify=False)
             html = response.content
