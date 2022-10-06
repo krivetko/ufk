@@ -638,5 +638,29 @@
 				</div>
 			</div>
 		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse49" aria-expanded="false" aria-controls="collapse49">
+					Placeholder	
+				</button>
+				<div class="collapse" id="collapse49">
+				<div class="card card-body">
+					{% include 'mkb-am.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse50" aria-expanded="false" aria-controls="collapse50">
+					Placeholder	
+				</button>
+				<div class="collapse" id="collapse50">
+				<div class="card card-body">
+					{% include 'prostorinvest.html' %}
+				</div>
+				</div>
+			</div>
+		</div>
 {% endblock %}
 
