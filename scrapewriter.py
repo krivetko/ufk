@@ -13,14 +13,14 @@ from django.db.models import Q
 
 import time
 
-pif = UK.objects.filter(uk_ogrn = '1087447011497').first()
+pif = UK.objects.filter(uk_ogrn = '1197456036975').first()
 pifset = PIF.objects.filter(Q(pif_uk = pif) & ~Q(pif_checkpage=''))
 
 
-file_ = open('/home/ufk/monitoring_project/templates/am-pifagor.html', 'w')
+file_ = open('/home/ufk/monitoring_project/templates/ukrfc.html', 'w')
 
 import importlib
-module = importlib.import_module('extractors.am-pifagor')
+module = importlib.import_module('extractors.ukrfc')
 
 for pif in pifset:
     start_time = time.time()
